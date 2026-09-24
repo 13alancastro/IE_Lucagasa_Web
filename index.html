@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="style.css"/>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>IE Colegio Luis Carlos Galán Sarmiento</title>
+<title>Institución Educativa Luis Carlos Galán Sarmiento</title>
 </head>
 <body>
 
@@ -19,7 +19,7 @@
  <div class="hdr-left">
   <img src="img/logogalan.png" alt="Logo IE Luis Carlos Galán Sarmiento" class="logo-img"/>
   <div class="hdr-title">
-      <h1>Institución Educativa<br>Colegio Luis Carlos Galán Sarmiento</h1>
+      <h1 class="institution-name">Institución Educativa<br>Luis Carlos Galán Sarmiento</h1>
       <p>Esfuerzo y disciplina</p>
       <span class="hdr-url">🌐 www.lucagasa.edu.co</span>
     </div>
@@ -38,6 +38,7 @@
     <button class="tab-btn" onclick="showTab('mision',this)">🎯 Misión</button>
     <button class="tab-btn" onclick="showTab('vision',this)">🔭 Visión</button>
     <button class="tab-btn" onclick="showTab('admin',this)">👥 Cuerpo Administrativo</button>
+    <button class="tab-btn" onclick="showTab('empleados',this)">👩‍🏫 Nuestros Empleados</button>
     <button class="tab-btn" onclick="showTab('galeria',this)">🖼️ Galería</button>
     <button class="tab-btn" onclick="showTab('noticias',this)">📰 Noticias y Eventos</button>
     <button class="tab-btn" onclick="showTab('pqrs',this)">📢 PQRS</button>
@@ -52,11 +53,11 @@
 
 <!-- INICIO -->
 <div id="panel-inicio" class="panel active">
-  <div class="hero-band" style="padding-bottom:3rem">
+  <div class="hero-band hero-home" style="padding-bottom:3rem">
     <p class="eyebrow">Bienvenidos a nuestra comunidad educativa</p>
-    <h2>Institución Educativa<br>Colegio Luis Carlos Galán Sarmiento</h2>
+    <h2 class="institution-name">Institución Educativa<br>Luis Carlos Galán Sarmiento</h2>
     <p>Comprometidos con la formación integral de niños,niñas y jóvenes del municipio de Orocué, Casanare. Más de tres décadas de trayectoria formando personas.</p>
-    <div style="display:flex;flex-wrap:wrap;gap:.8rem;margin-top:1.4rem">
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:.8rem;margin-top:1.4rem">
       <button class="btn btn-gold" onclick="showTab('historia',document.querySelectorAll('.tab-btn')[1])">Conoce nuestra historia</button>
       <button class="btn btn-green" onclick="openModal()">📄 Solicitar documentos</button>
     </div>
@@ -87,11 +88,11 @@
     <p class="section-title">Accesos rápidos</p>
     <div class="grid g3">
       <div class="card" style="cursor:pointer" onclick="openModal()"><div class="card-icon">📄</div><h3>Solicitar documentos</h3><p>Certificados, boletines, paz y salvo de forma rápida y en línea.</p></div>
-      <div class="card" style="cursor:pointer" onclick="showTab('pqrs',document.querySelectorAll('.tab-btn')[7])"><div class="card-icon">📢</div><h3>Radicar PQRS</h3><p>Peticiones, quejas, reclamos y sugerencias para mejorar nuestro servicio.</p></div>
-      <div class="card" style="cursor:pointer" onclick="showTab('boletin',document.querySelectorAll('.tab-btn')[9])"><div class="card-icon">📊</div><h3>Consultar boletín</h3><p>Revisa el informe académico de tu hijo o hija por período.</p></div>
-      <div class="card" style="cursor:pointer" onclick="showTab('noticias',document.querySelectorAll('.tab-btn')[6])"><div class="card-icon">📰</div><h3>Noticias y eventos</h3><p>Mantente al día con todo lo que sucede en nuestra institución.</p></div>
-      <div class="card" style="cursor:pointer" onclick="showTab('manual',document.querySelectorAll('.tab-btn')[8])"><div class="card-icon">📘</div><h3>Manual de convivencia</h3><p>Descarga el manual actualizado con los derechos y deberes de la comunidad.</p></div>
-      <div class="card" style="cursor:pointer" onclick="showTab('contacto',document.querySelectorAll('.tab-btn')[10])"><div class="card-icon">📞</div><h3>Contáctanos</h3><p>Dirección, teléfonos, PBX y correos institucionales.</p></div>
+      <div class="card" style="cursor:pointer" onclick="showTab('pqrs',document.querySelectorAll('.tab-btn')[8])"><div class="card-icon">📢</div><h3>Radicar PQRS</h3><p>Peticiones, quejas, reclamos y sugerencias para mejorar nuestro servicio.</p></div>
+      <div class="card" style="cursor:pointer" onclick="showTab('boletin',document.querySelectorAll('.tab-btn')[10])"><div class="card-icon">📊</div><h3>Consultar boletín</h3><p>Revisa el informe académico de tu hijo o hija por período.</p></div>
+      <div class="card" style="cursor:pointer" onclick="showTab('noticias',document.querySelectorAll('.tab-btn')[7])"><div class="card-icon">📰</div><h3>Noticias y eventos</h3><p>Mantente al día con todo lo que sucede en nuestra institución.</p></div>
+      <div class="card" style="cursor:pointer" onclick="showTab('manual',document.querySelectorAll('.tab-btn')[9])"><div class="card-icon">📘</div><h3>Manual de convivencia</h3><p>Descarga el manual actualizado con los derechos y deberes de la comunidad.</p></div>
+      <div class="card" style="cursor:pointer" onclick="showTab('contacto',document.querySelectorAll('.tab-btn')[11])"><div class="card-icon">📞</div><h3>Contáctanos</h3><p>Dirección, teléfonos, PBX y correos institucionales.</p></div>
     </div>
   </div>
 </div>
@@ -101,7 +102,7 @@
   <div class="hero-band">
     <p class="eyebrow">Nuestros orígenes</p>
     <h2>Nuestra Historia</h2>
-    <p>
+    <p class="history-copy">
 
 La historia de la Institución Educativa se remonta al año <strong>1994</strong>, cuando un grupo de madres comunitarias y de familia se organizó con el firme propósito de gestionar la creación de un nuevo establecimiento educativo en el casco urbano de Orocué. <br> Esta iniciativa ciudadana surgió como una respuesta de inclusión social y equidad, orientada a garantizar el derecho constitucional a la educación de aquellos niños y jóvenes que presentaban barreras de acceso en la única institución existente en la época, ya fuera por situaciones de extraedad, diversidad en los ritmos de aprendizaje o perfiles convivenciales particulares. <br> De este modo, la institución nació bajo un profundo sentido de apertura, resiliencia y servicio a la comunidad.
 
@@ -111,35 +112,35 @@ Los antecedentes de infraestructura de la institución se formalizaron en el añ
 
 <br> La consolidación de la planta física de la Institución inició bajo la administración municipal del señor <strong>Oscar Celio González</strong>, periodo en el cual se edificaron las dos primeras aulas de clase. Posteriormente, durante la gestión del señor <strong>Omar loza Rodriguez</strong>, la infraestructura se expandió significativamente con la construcción de ocho salones adicionales. Paralelo al crecimiento físico, se promovió la primera convocatoria para el cuerpo docente de aula; una labor liderada e impulsada con determinación por las señoras <strong>María Ortiz y Ramona Tovar</strong>. <br> Este proceso de selección y articulación pedagógica contó con el valioso respaldo de educadores provenientes de la Institución Educativa La Inmaculada y de la Escuela Comunitaria Tierra Blanca, quienes aportaron su experiencia para dar inicio formal a las actividades académicas.
 
-El 30 de diciembre de <strong>1995</strong>, el Concejo Municipal de Orocué expidió el acuerdo Nº 038, mediante el cual se crea formalmente el <strong>“Colegio Municipal Luis Carlos Galán Sarmiento”</strong>. De conformidad con lo establecido en dicho acto administrativo, la institución fue constituida como un establecimiento público del orden municipal, quedando adscrita para su funcionamiento y lineamientos misionales a la entonces Secretaría de Salud, Educación, Cultura, Recreación y Deporte. Este hito normativo consolidó la vida jurídica del plantel y aseguró la asignación de recursos y soporte institucional para la comunidad educativa.
+El <strong>30 de diciembre de 1995</strong>, el Concejo Municipal de Orocué expidió el acuerdo Nº 038, mediante el cual se crea formalmente el <strong>“Colegio Municipal Luis Carlos Galán Sarmiento”</strong>. De conformidad con lo establecido en dicho acto administrativo, la institución fue constituida como un establecimiento público del orden municipal, quedando adscrita para su funcionamiento y lineamientos misionales a la entonces Secretaría de Salud, Educación, Cultura, Recreación y Deporte. Este hito normativo consolidó la vida jurídica del plantel y aseguró la asignación de recursos y soporte institucional para la comunidad educativa.
 
 <strong> <br> Las actividades académicas de la IE iniciaron formalmente en el año 1996 </strong>, contando con un equipo fundacional de tres docentes:<br> <strong> la profesora María Belkys Daza Guarín </strong>, quien asumió las funciones de dirección, junto a los docentes <strong> Javier Muñoz Tamayo y Jorge Alberto Nieto Escarpeta</strong>. En su primer año de servicio, el plantel abrió sus puertas a una matrícula inicial de 40 estudiantes, distribuidos en tres niveles educativos: el grado quinto (5°) de Básica Primaria, y los grados sextos (6°) y séptimo (7°) de Básica Secundaria (bachillerato). Este hito marcó el inicio del impacto pedagógico y social de la institución en el municipio.
 
 <br> En el año <strong>1997</strong>, correspondiente al último periodo de gobierno del alcalde <strong> Omar Loza Rodríguez </strong>, se encargó la Rectoría de la institución al   <strong> César Bernardo Llanos Moreno </strong>, quien además de liderar el plantel asumió la asignación académica de las asignaturas de <strong> Ciencias Naturales y Matemáticas </strong>; esto bajo una condición particular, dado que para la fecha la plaza de dirección no se encontraba formalmente creada ni reconocida en la planta de personal. En este mismo año lectivo, ante el incremento del servicio, el equipo de educadores se consolidó con la participación de los docentes: <br> <strong> María Belkys Daza Guarín, Santander Llerena Pérez, Doris Clemencia Salazar Rodríguez, María Bety Jaimes Parada, Dora Marleny Monroy, Javier Muñoz Tamayo y Jorge Cadena Galvis.</strong>
 
-El fortalecimiento legal de la institución se consolidó de manera significativa en el año <strong>1998</strong>, al obtener la aprobación oficial por parte de la Secretaría de Educación Departamental para operar y expedir certificaciones en el nivel de Básica Secundaria, mediante la Resolución Nº 1853 del 20 de noviembre de 1998.<br> Respaldados por este marco normativo, en el año 2001 se alcanzó uno de los mayores hitos institucionales con la graduación de la primera promoción de bachilleres, conformada por un total de 28 estudiantes. Este acontecimiento fue refrendado por la Resolución Nº 0672 del 22 de octubre de 2001, acto administrativo emitido por la Secretaría de Educación que facultó formalmente a la institución para otorgar el título de Bachiller Académico.
+El fortalecimiento legal de la institución se consolidó de manera significativa en el año <strong>1998</strong>, al obtener la aprobación oficial por parte de la Secretaría de Educación Departamental para operar y expedir certificaciones en el nivel de Básica Secundaria, mediante la Resolución Nº 1853 del <strong>20 de noviembre de 1998</strong>.<br> Respaldados por este marco normativo, en el año <strong>2001</strong> se alcanzó uno de los mayores hitos institucionales con la graduación de la primera promoción de bachilleres, conformada por un total de 28 estudiantes. Este acontecimiento fue refrendado por la Resolución Nº 0672 del <strong>22 de octubre de 2001</strong>, acto administrativo emitido por la Secretaría de Educación que facultó formalmente a la institución para otorgar el título de Bachiller Académico.
 
-La consolidación de la IE como la entidad educativa con mayor cobertura y envergadura del municipio se logró mediante un proceso estratégico de fusión. Inicialmente, la Secretaría de Educación Departamental expidió la Resolución Nº 0758 del 24 de septiembre de 2002, ordenando la integración de la Institución Educativa Luis Carlos Galán Sarmiento con la Escuela Comunitaria Tierra Blanca. Posteriormente, este alcance se expandió significativamente a través de la Resolución Nº 0332 del 19 de marzo de 2003, mediante la cual se adscribieron formalmente siete (7) escuelas unitarias de la zona rural pertenecientes a las veredas de: <br> <strong> La Esmeralda, Campoalegre, La Palmita, La Nueva Reforma, La Pradera, San Ignacio de Cumaco y Guariamena Corea </strong>. <br> A partir de este hito normativo, el establecimiento se constituyó en la Institución Educativa con la mayor cobertura del municipio, manteniendo las sedes rurales bajo la modalidad de escuelas unitarias para responder a las dinámicas del entorno disperso.
+La consolidación de la IE como la entidad educativa con mayor cobertura y envergadura del municipio se logró mediante un proceso estratégico de fusión. Inicialmente, la Secretaría de Educación Departamental expidió la Resolución Nº 0758 del <strong>24 de septiembre de 2002</strong>, ordenando la integración de la Institución Educativa Luis Carlos Galán Sarmiento con la Escuela Comunitaria Tierra Blanca. Posteriormente, este alcance se expandió significativamente a través de la Resolución Nº 0332 del <strong>19 de marzo de 2003</strong>, mediante la cual se adscribieron formalmente siete (7) escuelas unitarias de la zona rural pertenecientes a las veredas de: <br> <strong> La Esmeralda, Campoalegre, La Palmita, La Nueva Reforma, La Pradera, San Ignacio de Cumaco y Guariamena Corea </strong>. <br> A partir de este hito normativo, el establecimiento se constituyó en la Institución Educativa con la mayor cobertura del municipio, manteniendo las sedes rurales bajo la modalidad de escuelas unitarias para responder a las dinámicas del entorno disperso.
 
-En estricto cumplimiento de las directrices nacionales establecidas en el Decreto 3011 de 1997, la Institución Educativa implementó desde el año <strong>2008</strong>, la oferta educativa formal para adultos en la Sede Luis Carlos Galán Sarmiento. Este servicio se desarrolla bajo la modalidad semipresencial y se imparte de manera exclusiva en la jornada sabatina diurna, garantizando la inclusión, la continuidad y la permanencia en el sistema educativo de la población que requiere alternativas pedagógicas flexibles por razones laborales o socioeconómicas.
+En estricto cumplimiento de las directrices nacionales establecidas en el Decreto 3011 de <strong>1997</strong>, la Institución Educativa implementó desde el año <strong>2008</strong>, la oferta educativa formal para adultos en la Sede Luis Carlos Galán Sarmiento. Este servicio se desarrolla bajo la modalidad semipresencial y se imparte de manera exclusiva en la jornada sabatina diurna, garantizando la inclusión, la continuidad y la permanencia en el sistema educativo de la población que requiere alternativas pedagógicas flexibles por razones laborales o socioeconómicas.
 
 La estructura física y operativa de la institución ha experimentado diversas modificaciones normativas ordenadas por la Secretaría de Educación Departamental. En primer lugar, mediante la Resolución Nº 2434 de <strong>2011</strong>, se dispuso el cierre de la Sede Urbana Tierra Blanca, la cual atendía los niveles de Preescolar, Primero y Segundo de primaria; este mismo acto administrativo ordenó la reconfiguración de la Sede Principal bajo la modalidad de doble jornada, distribuyendo desde entonces la Educación Inicial (Primera Infancia) y Básica Primaria en la jornada de la mañana, y la Básica Secundaria y Media (Bachillerato) en la jornada de la tarde. Cabe precisar que la reapertura de la planta urbana de Tierra Blanca no ha sido viable debido a la carencia de una infraestructura física idónea para su funcionamiento.
 
-En cuanto al sector rural, se han ejecutado cierres definitivos e inactividades temporales motivados por las dinámicas de la matrícula dispersa. Mediante la Resolución Nº 2232 del <strong> 13 de agosto de 2010 </strong>, se ordenó el cierre temporal de la Sede Rural La Palmita, seguido por la inactivación temporal de la Sede Rural La Pradera a través de la Resolución Nº 0801 del 31 de marzo de 2014. Posteriormente, la Sede Rural La Esmeralda fue clausurada mediante la Resolución Nº 0159 de 2018, y finalmente, la Sede Rural La Nueva Reforma cesó actividades provisionalmente en virtud de la Resolución Nº 0137 del 24 de enero de 2022.
+En cuanto al sector rural, se han ejecutado cierres definitivos e inactividades temporales motivados por las dinámicas de la matrícula dispersa. Mediante la Resolución Nº 2232 del <strong> 13 de agosto de 2010 </strong>, se ordenó el cierre temporal de la Sede Rural La Palmita, seguido por la inactivación temporal de la Sede Rural La Pradera a través de la Resolución Nº 0801 del <strong>31 de marzo de 2014</strong>. Posteriormente, la Sede Rural La Esmeralda fue clausurada mediante la Resolución Nº 0159 de <strong>2018</strong>, y finalmente, la Sede Rural La Nueva Reforma cesó actividades provisionalmente en virtud de la Resolución Nº 0137 del <strong>24 de enero de 2022</strong>.
 
-Un hito fundamental en la diversificación curricular de la Educación Media (grados 10° y 11°) se alcanzó en el año 2017, cuando la Institución Educativa formalizó su alianza estratégica con el Servicio Nacional de Aprendizaje (SENA). <br> Este proceso inició con la implementación del programa Técnico en Cultivo y Cosecha de Palma de Aceite.
+Un hito fundamental en la diversificación curricular de la Educación Media (grados 10° y 11°) se alcanzó en el año <strong>2017</strong>, cuando la Institución Educativa formalizó su alianza estratégica con el Servicio Nacional de Aprendizaje (SENA). <br> Este proceso inició con la implementación del programa Técnico en Cultivo y Cosecha de Palma de Aceite.
 
 A partir del año <strong>2018</strong>, las promociones de bachilleres de la Institución Educativa Luis Carlos Galán Sarmiento acceden a los beneficios de la doble titulación, cuya oferta técnica varía según la disponibilidad de cada año lectivo. Así mismo, el Establecimiento Educativo (EE) recibe el respaldo de la estrategia intersectorial Colegios Amigos del Turismo (CAT), alianza que fortalece de manera directa la implementación del Proyecto Ambiental Escolar (PRAE) como eje pedagógico transversal.
 
-Posteriormente, en el año <strong>2019</strong>, se incorporó el programa Técnico en <strong> Contabilización de Operaciones Comerciales y Financieras </strong>, cuya cohorte finalizó con éxito en el 2020. En ese mismo año lectivo (2020), la oferta se diversificó con la apertura de las técnicas en <strong> Asistencia Administrativa y Operaciones Turísticas Locales </strong>, programas que mantuvieron continuidad en formación y titulación durante las vigencias 2021 y 2022.
+Posteriormente, en el año <strong>2019</strong>, se incorporó el programa Técnico en <strong> Contabilización de Operaciones Comerciales y Financieras </strong>, cuya cohorte finalizó con éxito en el 2020. En ese mismo año lectivo (<strong>2020</strong>), la oferta se diversificó con la apertura de las técnicas en <strong> Asistencia Administrativa y Operaciones Turísticas Locales </strong>, programas que mantuvieron continuidad en formación y titulación durante las vigencias <strong>2021 y 2022</strong>.
 
-Para el año <strong>2023</strong>, la institución amplió su espectro formativo capacitando a los estudiantes en cuatro enfoques: <br> <strong>Técnico en Asistencia Administrativa, Técnico en Recursos Naturales, Técnico en Cultivo y Cosecha de Palma de Aceite y Técnico en Operaciones Turísticas Locales </strong>. <br> Finalmente, con el fin de responder a las demandas productivas y ambientales del entorno regional, durante los años 2024 y 2025 la oferta institucional se focalizó estratégicamente en los programas de Técnico en Recursos Naturales y Técnico en Cultivo y Cosecha de Palma de Aceite.
+Para el año <strong>2023</strong>, la institución amplió su espectro formativo capacitando a los estudiantes en cuatro enfoques: <br> <strong>Técnico en Asistencia Administrativa, Técnico en Recursos Naturales, Técnico en Cultivo y Cosecha de Palma de Aceite y Técnico en Operaciones Turísticas Locales </strong>. <br> Finalmente, con el fin de responder a las demandas productivas y ambientales del entorno regional, durante los años <strong>2024 y 2025</strong> la oferta institucional se focalizó estratégicamente en los programas de Técnico en Recursos Naturales y Técnico en Cultivo y Cosecha de Palma de Aceite.
 
 A partir del año <strong>2018</strong>, las promociones de bachilleres de la Institución Educativa Luis Carlos Galán Sarmiento acceden a los beneficios de la doble titulación, cuya oferta técnica varía según la disponibilidad de cada año lectivo. Así mismo, el Establecimiento Educativo (EE) recibe el respaldo de la estrategia intersectorial Colegios Amigos del Turismo (CAT), alianza que fortalece de manera directa la implementación del Proyecto Ambiental Escolar (PRAE) como eje pedagógico transversal.
 
 <br> En cuanto a su cobertura geográfica, la institución coordina sus procesos pedagógicos a través de cinco sedes rurales activas: <br> <strong>Campoalegre, La Pradera, La Palmita, Guariamena Corea y San Ignacio de Cumaco </strong>.<br> Por su parte, el servicio en la zona urbana se concentra en la sede principal. <br> Cabe resaltar la problemática de la sede urbana Tierra Blanca; a la fecha, se han desvanecido las gestiones previas para su reapertura y no existen viabilidades técnicas ni presupuestales para su construcción. <br> Esta situación representa una sentida necesidad educativa para la comunidad, ya que su ausencia impide el establecimiento de una jornada única que permita resignificar el tiempo escolar en el marco de la Formación Integral.
 
-Para la vigencia 2025, la planta de personal de la institución se encuentra conformada por tres directivos docentes (Rector, Coordinadora Académica y Coordinadora de Convivencia) y 38 docentes de aula distribuidos estratégicamente. <br> En la Sede Principal, la educación inicial se fortaleció con la apertura e implementación del grado Jardín (atendido por dos docentes) y el grado Transición (con dos docentes); la Básica Primaria cuenta con 10 docentes; y la Básica Secundaria y Media es liderada por un equipo de 19 educadores. Con el fin de garantizar la equidad y permanencia educativa, la institución implementa modelos de aprendizaje flexibles: en la zona rural, cinco docentes atienden las sedes bajo la modalidad multigrado; en la zona urbana, un docente lidera la estrategia Aceleración del Aprendizaje, y se ofrece la jornada sabatina de educación formal para adultos.
+Para la vigencia <strong>2025</strong>, la planta de personal de la institución se encuentra conformada por tres directivos docentes (Rector, Coordinadora Académica y Coordinadora de Convivencia) y 38 docentes de aula distribuidos estratégicamente. <br> En la Sede Principal, la educación inicial se fortaleció con la apertura e implementación del grado Jardín (atendido por dos docentes) y el grado Transición (con dos docentes); la Básica Primaria cuenta con 10 docentes; y la Básica Secundaria y Media es liderada por un equipo de 19 educadores. Con el fin de garantizar la equidad y permanencia educativa, la institución implementa modelos de aprendizaje flexibles: en la zona rural, cinco docentes atienden las sedes bajo la modalidad multigrado; en la zona urbana, un docente lidera la estrategia Aceleración del Aprendizaje, y se ofrece la jornada sabatina de educación formal para adultos.
 
 Finalmente, el equipo se complementa con una docente tutora del Programa de Tutorías para el Aprendizaje y la Formación Integral (PTA FI 3.0) y una secretaria en provisionalidad nombrada por la Secretaría de Educación Departamental. <br> El soporte operativo cuenta con el apoyo de la Gobernación de Casanare, entidad que contrata de forma temporal a dos auxiliares administrativas y dos empleados de servicios generales, mientras que la Administración Municipal vincula temporalmente a una promotora de lectura para apoyar los procesos de la biblioteca escolar.</p>
   </div>
@@ -171,7 +172,7 @@ Finalmente, el equipo se complementa con una docente tutora del Programa de Tuto
     <div class="tl-dot"></div>
     <div class="tl-yr">1995</div>
     <div class="tl-txt">
-      El 30 de diciembre, mediante el Acuerdo Nº 038 del Concejo Municipal,
+      El <strong>30 de diciembre</strong>, mediante el Acuerdo Nº 038 del Concejo Municipal,
       se creó formalmente el “Colegio Municipal Luis Carlos Galán Sarmiento”
       como establecimiento público adscrito a la gestión municipal.
     </div>
@@ -202,7 +203,7 @@ Finalmente, el equipo se complementa con una docente tutora del Programa de Tuto
     <div class="tl-dot"></div>
     <div class="tl-yr">1998</div>
     <div class="tl-txt">
-      El 20 de noviembre, mediante la Resolución Nº 1853 de la Secretaría
+      El <strong>20 de noviembre</strong>, mediante la Resolución Nº 1853 de la Secretaría
       de Educación Departamental, se obtuvo la aprobación oficial para
       operar el nivel de Básica Secundaria.
     </div>
@@ -212,7 +213,7 @@ Finalmente, el equipo se complementa con una docente tutora del Programa de Tuto
     <div class="tl-dot"></div>
     <div class="tl-yr">2001</div>
     <div class="tl-txt">
-      El 22 de octubre, por Resolución Nº 0672, la Secretaría de Educación
+      El <strong>22 de octubre</strong>, por Resolución Nº 0672, la Secretaría de Educación
       autorizó la expedición del título de Bachiller Académico, graduando
       la primera promoción conformada por 28 estudiantes.
     </div>
@@ -222,7 +223,7 @@ Finalmente, el equipo se complementa con una docente tutora del Programa de Tuto
     <div class="tl-dot"></div>
     <div class="tl-yr">2002</div>
     <div class="tl-txt">
-      El 24 de septiembre, mediante la Resolución Nº 0758, se ordenó la
+      El <strong>24 de septiembre</strong>, mediante la Resolución Nº 0758, se ordenó la
       integración estratégica con la Escuela Comunitaria Tierra Blanca.
     </div>
   </div>
@@ -231,7 +232,7 @@ Finalmente, el equipo se complementa con una docente tutora del Programa de Tuto
     <div class="tl-dot"></div>
     <div class="tl-yr">2003</div>
     <div class="tl-txt">
-      Por Resolución Nº 0332 del 19 de marzo, se fusionaron 7 escuelas
+      Por Resolución Nº 0332 del <strong>19 de marzo</strong>, se fusionaron 7 escuelas
       rurales unitarias, convirtiendo a la IE en el plantel con la mayor
       cobertura geográfica del municipio.
     </div>
@@ -242,7 +243,7 @@ Finalmente, el equipo se complementa con una docente tutora del Programa de Tuto
     <div class="tl-yr">2008</div>
     <div class="tl-txt">
       Implementación del programa de Educación Formal para Adultos en la
-      jornada sabatina diurna, en cumplimiento del Decreto 3011 de 1997.
+      jornada sabatina diurna, en cumplimiento del Decreto 3011 de <strong>1997</strong>.
     </div>
   </div>
 
@@ -279,7 +280,7 @@ Finalmente, el equipo se complementa con una docente tutora del Programa de Tuto
     <div class="tl-yr">2022</div>
     <div class="tl-txt">
       Inactivación provisional de la Sede Rural La Nueva Reforma mediante
-      la Resolución Nº 0137 del 24 de enero.
+      la Resolución Nº 0137 del <strong>24 de enero</strong>.
     </div>
   </div>
 
@@ -306,7 +307,7 @@ Finalmente, el equipo se complementa con una docente tutora del Programa de Tuto
   </div>
   <div class="cbody">
     <div class="card" style="max-width:700px;margin-bottom:2rem;padding:1.8rem;border-left-width:6px">
-      <p style="font-size:1rem;line-height:1.85;color:#1a1a2e"> 
+      <p style="font-size:1rem;line-height:1.85;color:#203322"> 
       <strong>La Institución Educativa Luis Carlos Galán Sarmiento</strong> es un establecimiento oficial comprometido con la formación integral de sus estudiantes, desde una perspectiva ética, inclusiva y humanista, que reconoce la educación como un proceso de construcción de sentido, pensamiento y autonomía. A través de la Pedagogía Conceptual, la institución orienta el desarrollo armónico del ser, el saber y el hacer, fortaleciendo las competencias cognitivas, socioemocionales, comunicativas y ciudadanas, en diálogo permanente con el contexto llanero del municipio de Orocué, su riqueza ambiental, cultural e histórica.
       Su misión es formar ciudadanos críticos, participativos y solidarios, capaces de comprender su realidad, transformar su entorno de manera responsable y ejercer una ciudadanía democrática basada en el respeto por la diferencia, la convivencia pacífica y el cuidado de la vida en todas sus expresiones.
       </p>
@@ -331,7 +332,7 @@ Finalmente, el equipo se complementa con una docente tutora del Programa de Tuto
   </div>
   <div class="cbody">
     <div class="card" style="max-width:700px;margin-bottom:2rem;padding:1.8rem;border-left-width:6px">
-      <p style="font-size:1rem;line-height:1.85;color:#1a1a2e">Para el año <strong>2035, la Institución Educativa Luis Carlos Galán Sarmiento </strong> será reconocida como un referente educativo en el municipio de Orocué por su apuesta pedagógica centrada en el desarrollo del pensamiento, la formación ética y la construcción de proyectos de vida autónomos y comprometidos con el bien común.
+      <p style="font-size:1rem;line-height:1.85;color:#203322">Para el año <strong>2035, la Institución Educativa Luis Carlos Galán Sarmiento </strong> será reconocida como un referente educativo en el municipio de Orocué por su apuesta pedagógica centrada en el desarrollo del pensamiento, la formación ética y la construcción de proyectos de vida autónomos y comprometidos con el bien común.
         La institución proyectará egresados capaces de interpretar de manera reflexiva su contexto local y global, valorar la diversidad cultural, histórica y ambiental del territorio llanero, y participar activamente en la solución pacífica de los conflictos sociales y ambientales.
         En articulación con iniciativas nacionales como el proyecto Amigos del Turismo, la institución fortalecerá una cultura turística responsable, orientada al reconocimiento, la preservación y la promoción sostenible del patrimonio natural y cultural de Orocué, concibiendo el turismo como una oportunidad pedagógica, económica y social para el desarrollo del territorio.
         Desde la Pedagogía Conceptual, la institución consolidará prácticas educativas innovadoras que integren el conocimiento, la acción y la reflexión ética, formando ciudadanos que lideren procesos de transformación social con identidad, sentido de pertenencia y compromiso con su entorno.</p>
@@ -466,29 +467,122 @@ Finalmente, el equipo se complementa con una docente tutora del Programa de Tuto
   </div>
 </div>
 
+<!-- NUESTROS EMPLEADOS -->
+<div id="panel-empleados" class="panel">
+  <div class="hero-band">
+    <h2>Nuestros Empleados</h2>
+  </div>
+  <div class="cbody">
+    <div class="employee-directory-grid">
+      <article class="employee-card">
+        <div class="employee-card-icon">📚</div>
+        <p class="employee-role">Biblioteca y Recursos</p>
+        <h3>Blanca Nelly Fonseca</h3>
+        <p>Bibliotecóloga. Administra el fondo bibliográfico, promueve la lectura y coordina el acceso a recursos educativos.</p>
+      </article>
+      <article class="employee-card">
+        <div class="employee-card-icon">🍲</div>
+        <p class="employee-role">Equipo de cocina</p>
+        <h3>Cocineras</h3>
+        <p>Espacio para agregar el nombre, las funciones y la información de cada integrante del equipo de cocina.</p>
+      </article>
+      <article class="employee-card">
+        <div class="employee-card-icon">🛡️</div>
+        <p class="employee-role">Seguridad</p>
+        <h3>Guarda de seguridad</h3>
+        <p>Nombre e información del trabajador por completar.</p>
+      </article>
+      <article class="employee-card">
+        <div class="employee-card-icon">🧹</div>
+        <p class="employee-role">Servicios generales</p>
+        <h3>Conserje</h3>
+        <p>Nombre e información del trabajador por completar.</p>
+      </article>
+      <article class="employee-card">
+        <div class="employee-card-icon">🤝</div>
+        <p class="employee-role">Equipo de apoyo</p>
+        <h3>Otros trabajadores</h3>
+        <p>Contenedor para agregar un perfil individual por cada trabajador de apoyo de la institución.</p>
+      </article>
+    </div>
+  </div>
+</div>
 <!-- GALERÍA -->
 <div id="panel-galeria" class="panel">
   <div class="hero-band">
     <p class="eyebrow">Momentos que nos definen</p>
-    <h2>Galería de Imágenes</h2>
-    <p>Fotografías que capturan la vida, los logros y el espíritu de nuestra comunidad educativa.</p>
+    <h2>Galería institucional</h2>
+    <p>Explora los álbumes de la comunidad educativa o crea uno para compartir sus actividades.</p>
   </div>
   <div class="cbody">
-    <p class="section-title">Eventos y actividades 2024</p>
-    <div class="gal-grid">
-      <div class="gal-item">🏫<div class="gal-label">Sede principal — Cabecera Municipio Orocué</div></div>
-      <div class="gal-item">🎉<div class="gal-label">Día institucional 2024</div></div>
-      <div class="gal-item">🎓<div class="gal-label">Ceremonia de graduación 2023</div></div>
-      <div class="gal-item">🎭<div class="gal-label">Semana Galanista</div></div>
-      <div class="gal-item">⚽<div class="gal-label">Intercolegiados Casanare</div></div>
-      <div class="gal-item">🌿<div class="gal-label">Proyecto ambiental "Guardianes del Agua"</div></div>
-      <div class="gal-item">🎶<div class="gal-label">Festival Cultural Llanero</div></div>
-      <div class="gal-item">📖<div class="gal-label">Semana de la Lectura</div></div>
+    <div class="gallery-categories" aria-label="Categorías de la galería">
+      <button class="gallery-category" id="documentos0" type="button" data-gallery-category="documentos" aria-pressed="false">
+        <span class="gallery-category-icon">📄</span>
+        <span class="gallery-category-copy"><strong>Documentos</strong><small>Guías y materiales</small></span>
+        <span class="gallery-count" id="count-documentos">0</span>
+      </button>
+      <button class="gallery-category" id="videos0" type="button" data-gallery-category="videos" aria-pressed="false">
+        <span class="gallery-category-icon">🎬</span>
+        <span class="gallery-category-copy"><strong>Videos</strong><small>Actividades y eventos</small></span>
+        <span class="gallery-count" id="count-videos">0</span>
+      </button>
+      <button class="gallery-category active" id="fotos0" type="button" data-gallery-category="fotos" aria-pressed="true">
+        <span class="gallery-category-icon">📸</span>
+        <span class="gallery-category-copy"><strong>Fotos</strong><small>Recuerdos escolares</small></span>
+        <span class="gallery-count" id="count-fotos">0</span>
+      </button>
     </div>
-    <p style="margin-top:1.2rem;font-size:.8rem;color:var(--gray);font-style:italic">📷 Las fotografías reales se agregarán cuando el sitio sea publicado en el servidor institucional.</p>
+
+    <section class="teacher-publish" aria-labelledby="gallery-upload-title">
+      <div class="teacher-publish-heading">
+        <span class="publish-icon">🧑‍🏫</span>
+        <div>
+          <h3 id="gallery-upload-title">Crea un álbum</h3>
+          <p>Docentes: indiquen su nombre, elijan una categoría y agreguen sus archivos.</p>
+        </div>
+      </div>
+      <form id="gallery-upload-form">
+        <div class="row2">
+          <div class="fr">
+            <label for="gallery-teacher">Nombre del docente</label>
+            <input id="gallery-teacher" name="teacher" type="text" maxlength="80" placeholder="Ej. María Pérez" required />
+          </div>
+          <div class="fr">
+            <label for="gallery-album-title">Nombre del álbum</label>
+            <input id="gallery-album-title" name="albumTitle" type="text" maxlength="100" placeholder="Ej. Feria de ciencias" required />
+          </div>
+        </div>
+        <div class="fr">
+          <label for="gallery-category-select">Categoría</label>
+          <select id="gallery-category-select" name="category">
+            <option value="fotos">Fotos</option>
+            <option value="videos">Videos</option>
+            <option value="documentos">Documentos</option>
+          </select>
+        </div>
+        <div class="fr">
+          <label for="gallery-files">Archivos para el álbum (opcional)</label>
+          <input id="gallery-files" name="files" type="file" accept="image/*" multiple />
+          <small class="gallery-file-hint" id="gallery-file-hint">Puedes seleccionar varias imágenes. Límite: 25 MB por álbum.</small>
+        </div>
+        <button class="btn btn-green" type="submit">＋ Crear álbum y guardar</button>
+      </form>
+      <p class="gallery-storage-note">Las publicaciones quedan guardadas en este navegador. Para compartirlas entre docentes y equipos se necesita un servidor institucional con cuentas de acceso.</p>
+    </section>
+
+    <section class="gallery-results" aria-labelledby="gallery-results-title">
+      <div class="gallery-results-heading">
+        <h3 id="gallery-results-title">Álbumes de fotos</h3>
+        <span id="gallery-album-count">0 álbumes</span>
+      </div>
+      <div id="gallery-empty" class="gallery-empty" hidden>
+        <span>🗂️</span>
+        <p>Aún no hay álbumes en esta categoría. Puedes crear el primero con el formulario.</p>
+      </div>
+      <div id="gallery-albums" class="gallery-albums" aria-live="polite"></div>
+    </section>
   </div>
 </div>
-
 <!-- NOTICIAS Y EVENTOS -->
 <div id="panel-noticias" class="panel">
   <div class="hero-band">
@@ -658,7 +752,7 @@ Finalmente, el equipo se complementa con una docente tutora del Programa de Tuto
   <div class="hero-band">
     <p class="eyebrow">Estamos para servirte</p>
     <h2>Contáctanos</h2>
-    <p>Toda la información de contacto de la Institución Educativa Colegio Luis Carlos Galán Sarmiento.</p>
+    <p>Toda la información de contacto de la Institución Educativa Luis Carlos Galán Sarmiento.</p>
   </div>
   <div class="cbody">
     <div class="contact-grid">
@@ -675,7 +769,7 @@ Finalmente, el equipo se complementa con una docente tutora del Programa de Tuto
 </div>
       <div class="cinfo"><div class="ci-icon">🏛️</div><h4>Datos institucionales</h4><p>Código DANE:185230001090</p><p>NIT:844002343-2 </p><p>Resolución de aprobación:<br>No. 0234 de 2003</p><p>Secretaría de Educación de Casanare</p></div>
     </div>
-    <div id="map" class="map-container"> <h4> Colegio Luis Carlos Galán Sarmiento</h4>
+    <div id="map" class="map-container"> <h4>Institución Educativa Luis Carlos Galán Sarmiento</h4>
       <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7951.790377741152!2d-71.34745212189816!3d4.788019475819566!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e132d2a5ac72555%3A0x7ea69752a0deee15!2sI.E.%20Luis%20Carlos%20Gal%C3%A1n%20Sarmiento!5e0!3m2!1ses-419!2sco!4v1785375281099!5m2!1ses-419!2sco" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
     </div>
     <div style="margin-top:2rem">
@@ -696,11 +790,11 @@ Finalmente, el equipo se complementa con una docente tutora del Programa de Tuto
 <!-- FOOTER -->
 <footer>
   <div class="footer-inner">
-    <div><h5>IE Colegio Luis Carlos Galán Sarmiento</h5><p>Orocué, Casanare, Colombia</p><p>www.lucagasa.edu.co</p></div>
+    <div><h5>IE Luis Carlos Galán Sarmiento</h5><p>Orocué, Casanare, Colombia</p><p>www.lucagasa.edu.co</p></div>
     <div><h5>Contacto</h5><p>Línea de atención gratuita: 3507696726</p><p>ieluiscarlosgalan@sedcasanare.gov.co</p><p>luiscarlosgalan@sedcasanare.gov.co</p></div>
     <div><h5>Secretaría de Educación</h5><p>Gobernación de Casanare</p><a href="#">Ministerio de Educación Nacional</a><a href="#">ICFES — Pruebas Saber</a></div>
   </div>
-  <div class="footer-bottom">© 2024 IE Colegio Luis Carlos Galán Sarmiento — Todos los derechos reservados &nbsp;|&nbsp; DANE: 185230001090</div>
+  <div class="footer-bottom">© 2024 IE Luis Carlos Galán Sarmiento — Todos los derechos reservados &nbsp;|&nbsp; DANE: 185230001090</div>
 </footer>
 
 <!-- ═══════════════ MODAL SOLICITUD ═══════════════ -->
