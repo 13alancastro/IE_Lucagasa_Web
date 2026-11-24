@@ -68,7 +68,7 @@ function readConfig(env = process.env) {
         smtpUser: (env.SMTP_USER || '').trim(),
         smtpPassword: env.SMTP_PASS || '',
         mailFrom: (env.MAIL_FROM || env.SMTP_USER || '').trim(),
-        corsOrigin: (env.CORS_ORIGIN || '').trim()
+        corsOrigins: (env.CORS_ORIGIN || '').split(',').map(value => value.trim()).filter(Boolean)
     };
 }
 
@@ -460,12 +460,13 @@ function createServer(options = {}) {
     const server = http.createServer(async (request, response) => {
         setSecurityHeaders(response);
 
-        if (serveApi && config.corsOrigin) {
+        if (serveApi && config.corsOrigins?.length) {
             const origin = request.headers.origin || '';
-            const allowed = config.corsOrigin === '*' || origin === config.corsOrigin;
+            const wildcard = config.corsOrigins.includes('*');
+            const allowed = wildcard || config.corsOrigins.includes(origin);
             if (allowed) {
-                response.setHeader('Access-Control-Allow-Origin', config.corsOrigin === '*' ? '*' : origin);
-                response.setHeader('Access-Control-Allow-Credentials', 'true');
+                response.setHeader('Access-Control-Allow-Origin', wildcard ? '*' : origin);
+                if (!wildcard) response.setHeader('Access-Control-Allow-Credentials', 'true');
                 response.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
                 response.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
                 response.setHeader('Vary', 'Origin');

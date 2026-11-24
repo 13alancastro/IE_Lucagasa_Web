@@ -423,6 +423,36 @@ test('sirve los archivos de SEO y PWA sin exponer archivos privados', async () =
     assert.match(robots, /Sitemap:/);
 });
 
+test('permite CORS solo a los orígenes configurados del frontend', async () => {
+    const corsServer = createServer({
+        database,
+        config: { corsOrigins: ['http://127.0.0.1:8080'] },
+        sendNotification: async () => false
+    });
+    await new Promise((resolve, reject) => {
+        corsServer.once('error', reject);
+        corsServer.listen(0, '127.0.0.1', resolve);
+    });
+    const corsBase = `http://127.0.0.1:${corsServer.address().port}`;
+    try {
+        const preflight = await fetch(`${corsBase}/api/news`, {
+            method: 'OPTIONS',
+            headers: { Origin: 'http://127.0.0.1:8080', 'Access-Control-Request-Method': 'GET' }
+        });
+        assert.equal(preflight.status, 204);
+        assert.equal(preflight.headers.get('access-control-allow-origin'), 'http://127.0.0.1:8080');
+        assert.equal(preflight.headers.get('access-control-allow-credentials'), 'true');
+
+        const denied = await fetch(`${corsBase}/api/news`, {
+            method: 'OPTIONS',
+            headers: { Origin: 'http://sitio-malicioso.example' }
+        });
+        assert.equal(denied.status, 403);
+    } finally {
+        await new Promise(resolve => corsServer.close(resolve));
+    }
+});
+
 test('crea respaldos de la base de datos con VACUUM INTO', () => {
     const name = backupDatabase(database, databasePath);
     const backupPath = path.join(path.dirname(databasePath), 'backups', name);

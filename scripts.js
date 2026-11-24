@@ -382,7 +382,7 @@ async function gallerySyncSession() {
     try {
         const response = await fetch(API_BASE + '/api/news', {
             headers: galleryAuthHeaders(),
-            credentials: 'same-origin'
+            credentials: 'include'
         });
         galleryAdminSession = response.ok;
     } catch (error) {
@@ -402,6 +402,7 @@ async function galleryAdminLogin(event) {
         const response = await fetch(API_BASE + '/api/gallery/auth', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
             body: JSON.stringify({ password })
         });
         const result = await response.json().catch(() => ({}));
@@ -420,7 +421,7 @@ async function galleryAdminLogin(event) {
 
 function galleryAdminLogout() {
     galleryAdminSession = false;
-    fetch(API_BASE + '/api/gallery/logout', { method: 'POST', credentials: 'same-origin' }).catch(() => {});
+    fetch(API_BASE + '/api/gallery/logout', { method: 'POST', credentials: 'include' }).catch(() => {});
     gallerySetAdminVisible();
 }
 
@@ -669,7 +670,7 @@ async function refreshGallery() {
 
 async function galleryLoadServerAlbums(list, empty) {
     try {
-        const response = await fetch(API_BASE + '/api/gallery/albums?category=' + encodeURIComponent(galleryActiveCategory), { headers: galleryAuthHeaders(), credentials: 'same-origin' });
+        const response = await fetch(API_BASE + '/api/gallery/albums?category=' + encodeURIComponent(galleryActiveCategory), { headers: galleryAuthHeaders(), credentials: 'include' });
         const result = await response.json().catch(() => ({}));
         if (!response.ok) throw new Error(result.error || 'No se pudo cargar los álbumes.');
         const albums = result.albums || [];
@@ -721,7 +722,7 @@ async function galleryRenderServerAlbum(album) {
 }
 
 async function galleryCreateServerMedia(albumId, file) {
-    const response = await fetch(`${API_BASE}/api/gallery/albums/${encodeURIComponent(albumId)}/files/${encodeURIComponent(file.name)}`, { headers: galleryAuthHeaders(), credentials: 'same-origin' });
+    const response = await fetch(`${API_BASE}/api/gallery/albums/${encodeURIComponent(albumId)}/files/${encodeURIComponent(file.name)}`, { headers: galleryAuthHeaders(), credentials: 'include' });
     const result = await response.json().catch(() => ({}));
     if (!response.ok) return null;
     const media = document.createElement('div');
@@ -789,7 +790,7 @@ async function refreshNews() {
     const container = document.getElementById('news-published');
     if (!container || !galleryAdminSession) return;
     try {
-        const response = await fetch(API_BASE + '/api/news', { headers: galleryAuthHeaders(), credentials: 'same-origin' });
+        const response = await fetch(API_BASE + '/api/news', { headers: galleryAuthHeaders(), credentials: 'include' });
         const result = await response.json().catch(() => ({}));
         if (!response.ok) return;
         const newsList = result.news || [];
@@ -822,7 +823,7 @@ async function publishNews(event) {
         const response = await fetch(API_BASE + '/api/news', {
             method: 'POST',
             headers: galleryAuthHeaders(),
-            credentials: 'same-origin',
+            credentials: 'include',
             body: JSON.stringify({ title, date, category, summary })
         });
         const result = await response.json().catch(() => ({}));
@@ -910,7 +911,7 @@ async function galleryHandleUpload(event) {
         const response = await fetch(API_BASE + '/api/gallery/albums', {
             method: 'POST',
             headers: galleryAuthHeaders(),
-            credentials: 'same-origin',
+            credentials: 'include',
             body: JSON.stringify({ album: { title, teacher, category }, files: filePayloads })
         });
         const result = await response.json().catch(() => ({}));
