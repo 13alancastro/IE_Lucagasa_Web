@@ -1,0 +1,18 @@
+{
+  "name": "sitio-ie-luis-carlos-galan",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Sitio institucional con registro de solicitudes de documentos",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node test/server.test.js",
+    "audit": "npm audit"
+  },
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "dependencies": {
+    "nodemailer": "^10.0.12"
+  }
+}
