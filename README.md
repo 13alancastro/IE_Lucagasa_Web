@@ -60,6 +60,9 @@ npm start
 | `SMTP_USER` | Usuario SMTP | — |
 | `SMTP_PASS` | Contraseña SMTP | — |
 | `MAIL_FROM` | Remitente de los correos | `SMTP_USER` |
+| `CORS_ORIGIN` | Origen permitido si web y API están en dominios distintos | — |
+| `BACKUP_INTERVAL_HOURS` | Frecuencia del respaldo automático de la BD (horas) | `24` |
+| `BACKUP_KEEP` | Cantidad de respaldos a conservar | `7` |
 
 > ⚠️ **Importante:** cambia `ADMIN_PASSWORD` por una contraseña fuerte antes de desplegar. Sin `SMTP_*` configurado, las solicitudes se guardan en la BD pero no se envían correos (el sistema lo advierte al arrancar).
 
@@ -71,6 +74,22 @@ El mismo usuario administrador (`ADMIN_EMAIL` / `ADMIN_PASSWORD`) da acceso a do
 - **Noticias**: publicar noticias (título, fecha, categoría, resumen).
 
 Tras iniciar sesión, el servidor emite una cookie `HttpOnly` (`admin_token`, vigente 8 horas). El token **no se guarda en `sessionStorage` ni es accesible desde JavaScript**. Para cerrar sesión se llama a `POST /api/gallery/logout`, que revoca el token y limpia la cookie.
+
+## 🖼️ Cómo subir fotos a la galería (instrucciones para docentes)
+
+1. Abre la web en **http://localhost:8080** (o el dominio publicado).
+2. En el menú superior haz clic en **🖼️ Galería**.
+3. En la sección **"Crea un álbum"** aparece el recuadro **🔐 Panel privado de subida**.
+4. Escribe la **contraseña de administrador** — es el valor de `ADMIN_PASSWORD` en el archivo `.env` del servidor (por defecto en el ejemplo: `CambiaEstaClaveAdmin2026`, **cámbiala antes de usar**). El usuario es el correo configurado en `ADMIN_EMAIL`, pero en el formulario solo se pide la contraseña.
+5. Haz clic en **"Ingresar al panel"**. Si es correcto, el recuadro de login desaparece y se muestra el **panel de subida** (y también el panel de noticias).
+6. Completa:
+   - **Nombre del docente** y **nombre del álbum**.
+   - **Categoría**: Fotos / Videos / Documentos.
+   - **Archivos**: selecciona una o varias imágenes (máx. 25 MB por álbum y hasta 10 archivos).
+7. Haz clic en **"＋ Crear álbum y guardar"**. Las fotos se guardan en el servidor y aparecen en la galería de esa categoría.
+8. Para salir, haz clic en **"Salir del panel"**. Esto revoca la sesión (cookie `HttpOnly`).
+
+> La misma sesión de administrador sirve para publicar noticias en la pestaña **📰 Noticias y Eventos**.
 
 ## 📡 Endpoints de la API
 
@@ -98,6 +117,18 @@ Tras iniciar sesión, el servidor emite una cookie `HttpOnly` (`admin_token`, vi
 - Protección contra *path traversal* en archivos estáticos.
 - Contraseñas comparadas con `timingSafeEqual` (SHA-256).
 - Límites de tamaño y cantidad de archivos por álbum.
+- Respaldo automático de SQLite (`data/backups/`, conserva las últimas 7 copias).
+- Apagado limpio (`SIGTERM`/`SIGINT`) para cerrar la base de datos sin corrupción.
+- CORS opcional mediante `CORS_ORIGIN` para despliegues en dominios separados.
+
+## ✨ Mejoras de experiencia incluidas
+
+- Formulario de solicitudes en **3 pasos** con barra de progreso, validación por campo y número de **radicado**.
+- **Buscador de noticias** por título o categoría.
+- **PWA instalable** (manifest + service worker que solo cachea estáticos, nunca la API).
+- SEO: metadatos, Open Graph, JSON-LD, `robots.txt` y `sitemap.xml`.
+- Accesibilidad: skip link, navegación por teclado, `prefers-reduced-motion` y foco visible.
+- Enlaces institucionales y descargas centralizadas en la pestaña de contacto.
 
 ## 🧪 Pruebas
 

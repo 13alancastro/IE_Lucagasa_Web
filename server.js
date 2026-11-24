@@ -67,7 +67,8 @@ function readConfig(env = process.env) {
         smtpSecure: String(env.SMTP_SECURE || (smtpPort === 465 ? 'true' : 'false')).toLowerCase() === 'true',
         smtpUser: (env.SMTP_USER || '').trim(),
         smtpPassword: env.SMTP_PASS || '',
-        mailFrom: (env.MAIL_FROM || env.SMTP_USER || '').trim()
+        mailFrom: (env.MAIL_FROM || env.SMTP_USER || '').trim(),
+        corsOrigin: (env.CORS_ORIGIN || '').trim()
     };
 }
 
@@ -243,11 +244,46 @@ function normalizeAndValidate(body) {
     return { name, documentType, documentNumber, document, email };
 }
 
+function backupDatabase(database, databasePath) {
+    const backupDir = path.join(path.dirname(databasePath), 'backups');
+    fs.mkdirSync(backupDir, { recursive: true });
+    const stamp = new Date().toISOString().replace(/[:.]/g, '-');
+    const fileName = `document-requests-${stamp}.sqlite`;
+    const target = path.join(backupDir, fileName).replace(/\\/g, '/').replace(/'/g, "''");
+    database.exec(`VACUUM INTO '${target}'`);
+
+    const keep = Math.max(1, Number(process.env.BACKUP_KEEP || 7));
+    const existing = fs.readdirSync(backupDir)
+        .filter(name => /^document-requests-.*\.sqlite$/.test(name))
+        .sort();
+    while (existing.length > keep) {
+        fs.unlinkSync(path.join(backupDir, existing.shift()));
+    }
+    return fileName;
+}
+
+function scheduleDatabaseBackup(database, databasePath) {
+    const hours = Number(process.env.BACKUP_INTERVAL_HOURS || 24);
+    if (!Number.isFinite(hours) || hours <= 0) return null;
+    const run = () => {
+        try {
+            const name = backupDatabase(database, databasePath);
+            console.log(`Respaldo de la base de datos creado: ${name}`);
+        } catch (error) {
+            console.warn(`No se pudo crear el respaldo: ${error.message}`);
+        }
+    };
+    run();
+    const timer = setInterval(run, hours * 60 * 60 * 1000);
+    timer.unref();
+    return timer;
+}
+
 function allowedStaticRelativePath(relativePath) {
     const normalized = relativePath.replace(/\\/g, '/');
     const segments = normalized.split('/');
     if (segments.some(segment => segment === '.' || segment === '..' || segment === '')) return false;
-    if (['index.html', 'scripts.js', 'style.css'].includes(normalized)) return true;
+    if (['index.html', 'scripts.js', 'style.css', 'sw.js', 'manifest.webmanifest', 'robots.txt', 'sitemap.xml'].includes(normalized)) return true;
     return normalized.startsWith('img/') || normalized.startsWith('manual convivencia/');
 }
 
@@ -266,6 +302,9 @@ const CONTENT_TYPES = new Map([
     ['.jpg', 'image/jpeg'],
     ['.js', 'text/javascript; charset=utf-8'],
     ['.pdf', 'application/pdf'],
+    ['.txt', 'text/plain; charset=utf-8'],
+    ['.webmanifest', 'application/manifest+json; charset=utf-8'],
+    ['.xml', 'application/xml; charset=utf-8'],
     ['.png', 'image/png'],
     ['.svg', 'image/svg+xml'],
     ['.webp', 'image/webp']
@@ -278,6 +317,7 @@ const CONTENT_SECURITY_POLICY = [
     "font-src 'self' https://fonts.gstatic.com",
     "img-src 'self' data: https:",
     "connect-src 'self'",
+    "worker-src 'self'",
     "frame-src https://www.google.com",
     "frame-ancestors 'none'",
     "base-uri 'self'",
@@ -419,6 +459,24 @@ function createServer(options = {}) {
 
     const server = http.createServer(async (request, response) => {
         setSecurityHeaders(response);
+
+        if (serveApi && config.corsOrigin) {
+            const origin = request.headers.origin || '';
+            const allowed = config.corsOrigin === '*' || origin === config.corsOrigin;
+            if (allowed) {
+                response.setHeader('Access-Control-Allow-Origin', config.corsOrigin === '*' ? '*' : origin);
+                response.setHeader('Access-Control-Allow-Credentials', 'true');
+                response.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+                response.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+                response.setHeader('Vary', 'Origin');
+            }
+            if (request.method === 'OPTIONS') {
+                response.writeHead(allowed ? 204 : 403);
+                response.end();
+                return;
+            }
+        }
+
         const requestUrl = new URL(request.url, 'http://localhost');
 
         let pathname;
@@ -508,7 +566,7 @@ function createServer(options = {}) {
                     return;
                 }
                 const token = issueAdminToken();
-                response.setHeader('Set-Cookie', `admin_token=${token}; HttpOnly; SameSite=Strict; Path=/api/gallery; Max-Age=${Math.floor(GALLERY_TOKEN_TTL_MS / 1000)};`);
+                response.setHeader('Set-Cookie', `admin_token=${token}; HttpOnly; SameSite=Strict; Path=/api; Max-Age=${Math.floor(GALLERY_TOKEN_TTL_MS / 1000)};`);
                 jsonResponse(response, 200, { token, expiresIn: GALLERY_TOKEN_TTL_MS / 1000 });
             } catch (error) {
                 jsonResponse(response, error.statusCode || 500, {
@@ -667,7 +725,7 @@ function createServer(options = {}) {
             }
             const logoutToken = consumeAdminToken(request);
             if (logoutToken) adminSessions.delete(logoutToken);
-            response.setHeader('Set-Cookie', 'admin_token=; HttpOnly; SameSite=Strict; Path=/api/gallery; Max-Age=0;');
+            response.setHeader('Set-Cookie', 'admin_token=; HttpOnly; SameSite=Strict; Path=/api; Max-Age=0;');
             jsonResponse(response, 200, { ok: true });
             return;
         }
@@ -743,7 +801,10 @@ if (require.main === module) {
     try {
         loadEnvFile();
         const config = readConfig();
-        const apiServer = createServer({ config, serveStatic: false });
+        const database = createDatabase(config.databasePath);
+        scheduleDatabaseBackup(database, config.databasePath);
+
+        const apiServer = createServer({ config, database, serveStatic: false });
         apiServer.listen(config.port, config.host, () => {
             console.log(`API del sitio disponible en http://localhost:${config.port}`);
             console.log(`Base de datos: ${config.databasePath}`);
@@ -755,12 +816,32 @@ if (require.main === module) {
         const frontendPort = Number(process.env.FRONTEND_PORT || 8080);
         const frontendServer = createServer({
             config: { ...config, port: frontendPort },
+            database,
             serveStatic: true,
             api: false
         });
         frontendServer.listen(frontendPort, config.host, () => {
             console.log(`Sitio web disponible en http://localhost:${frontendPort}`);
         });
+
+        let closing = false;
+        function shutdown(signal) {
+            if (closing) return;
+            closing = true;
+            console.log(`\nCerrando servidores (${signal})...`);
+            let pending = 2;
+            const done = () => {
+                pending -= 1;
+                if (pending !== 0) return;
+                try { database.close(); } catch (error) { /* ya cerrada */ }
+                process.exit(0);
+            };
+            apiServer.close(done);
+            frontendServer.close(done);
+            setTimeout(() => process.exit(0), 5000).unref();
+        }
+        process.on('SIGTERM', () => shutdown('SIGTERM'));
+        process.on('SIGINT', () => shutdown('SIGINT'));
     } catch (error) {
         console.error(error.message);
         process.exitCode = 1;
@@ -769,6 +850,7 @@ if (require.main === module) {
 
 module.exports = {
     CONSENT_VERSION,
+    backupDatabase,
     createDatabase,
     createServer,
     mailIsConfigured,

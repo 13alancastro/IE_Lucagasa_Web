@@ -84,61 +84,144 @@ function selPQRS(el, tipo) {
 
 let modalReturnFocus = null;
 
+function validateRequestStep(step) {
+    const form = document.getElementById('document-request-form');
+    if (!form) return false;
+    let valid = true;
+    const section = form.querySelector(`.form-step[data-step="${step}"]`);
+    if (!section) return false;
+
+    section.querySelectorAll('[required]').forEach(field => {
+        const error = field.parentElement?.querySelector('.field-error');
+        let message = '';
+        if (field.type === 'checkbox') {
+            if (!field.checked) message = 'Debes autorizar el tratamiento de tus datos.';
+        } else if (!field.value.trim()) {
+            message = 'Este campo es obligatorio.';
+        } else if (field.type === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(field.value)) {
+            message = 'Escribe un correo electrónico válido.';
+        } else if (field.id === 'request-document-number' && !/^[\d. -]{4,30}$/.test(field.value)) {
+            message = 'Revisa el número de documento.';
+        }
+        if (error) error.textContent = message;
+        if (message) valid = false;
+    });
+    if (!valid) section.querySelector('.field-error:not(:empty)')?.scrollIntoView({ block: 'center' });
+    return valid;
+}
+
+function showRequestStep(form, step) {
+    form.querySelectorAll('.form-step').forEach(section => {
+        section.hidden = Number(section.dataset.step) !== step;
+    });
+    form.querySelectorAll('.form-progress-step').forEach((bar, index) => {
+        bar.classList.toggle('current', index === step - 1);
+        bar.classList.toggle('done', index < step - 1);
+    });
+    form.querySelector(`.form-step[data-step="${step}"] input:not([tabindex="-1"])`)?.focus();
+}
+
 function openModal() {
     const overlay = document.getElementById('modal-overlay');
     const body = document.getElementById('modal-body');
     if (!overlay || !body) return;
 
     modalReturnFocus = document.activeElement;
-    body.innerHTML = `<form class="form-wrap" id="document-request-form">
-    <div class="fr">
-      <label for="request-name">Nombre completo del solicitante</label>
-      <input id="request-name" name="name" type="text" maxlength="120" placeholder="Ej.: Juan Pérez" autocomplete="name" required />
+    body.innerHTML = `<form class="form-wrap" id="document-request-form" novalidate>
+    <div class="form-progress" aria-hidden="true">
+      <span class="form-progress-step current"></span>
+      <span class="form-progress-step"></span>
+      <span class="form-progress-step"></span>
     </div>
-    <div class="row2">
+
+    <section class="form-step" data-step="1">
+      <p class="form-step-hint">Paso 1 de 3 · Identificación del solicitante</p>
       <div class="fr">
-        <label for="request-document-type">Tipo de documento</label>
-        <select id="request-document-type" name="documentType" required>
-          <option value="">Selecciona una opción</option>
-          <option value="Cédula de Ciudadanía">Cédula de Ciudadanía</option>
-          <option value="Cédula de Extranjería">Cédula de Extranjería</option>
+        <label for="request-name">Nombre completo del solicitante</label>
+        <input id="request-name" name="name" type="text" maxlength="120" placeholder="Ej.: Juan Pérez" autocomplete="name" required />
+        <span class="field-error" aria-live="polite"></span>
+      </div>
+      <div class="row2">
+        <div class="fr">
+          <label for="request-document-type">Tipo de documento</label>
+          <select id="request-document-type" name="documentType" required>
+            <option value="">Selecciona una opción</option>
+            <option value="Cédula de Ciudadanía">Cédula de Ciudadanía</option>
+            <option value="Cédula de Extranjería">Cédula de Extranjería</option>
+          </select>
+          <span class="field-error" aria-live="polite"></span>
+        </div>
+        <div class="fr">
+          <label for="request-document-number">Número de documento</label>
+          <input id="request-document-number" name="documentNumber" type="text" inputmode="numeric" maxlength="30" autocomplete="off" placeholder="Número..." required />
+          <span class="field-error" aria-live="polite"></span>
+        </div>
+      </div>
+      <div class="form-step-actions"><button class="btn btn-navy" type="button" data-next="2">Continuar →</button></div>
+    </section>
+
+    <section class="form-step" data-step="2" hidden>
+      <p class="form-step-hint">Paso 2 de 3 · Documento y datos de contacto</p>
+      <div class="fr">
+        <label for="request-document">Documento requerido</label>
+        <select id="request-document" name="document" required>
+          <option value="">Selecciona un documento</option>
+          <option value="Certificado de Estudios">Certificado de Estudios</option>
+          <option value="Boletín de Notas">Boletín de Notas</option>
+          <option value="Paz y Salvo">Paz y Salvo</option>
+          <option value="Constancia de Matrícula">Constancia de Matrícula</option>
         </select>
+        <span class="field-error" aria-live="polite"></span>
       </div>
       <div class="fr">
-        <label for="request-document-number">Número de documento</label>
-        <input id="request-document-number" name="documentNumber" type="text" inputmode="numeric" maxlength="30" autocomplete="off" placeholder="Número..." required />
+        <label for="request-email">Correo electrónico de contacto</label>
+        <input id="request-email" name="email" type="email" maxlength="254" placeholder="correo@ejemplo.com" autocomplete="email" required />
+        <span class="field-error" aria-live="polite"></span>
       </div>
-    </div>
-    <div class="fr">
-      <label for="request-document">Documento requerido</label>
-      <select id="request-document" name="document" required>
-        <option value="">Selecciona un documento</option>
-        <option value="Certificado de Estudios">Certificado de Estudios</option>
-        <option value="Boletín de Notas">Boletín de Notas</option>
-        <option value="Paz y Salvo">Paz y Salvo</option>
-        <option value="Constancia de Matrícula">Constancia de Matrícula</option>
-      </select>
-    </div>
-    <div class="fr">
-      <label for="request-email">Correo electrónico de contacto</label>
-      <input id="request-email" name="email" type="email" maxlength="254" placeholder="correo@ejemplo.com" autocomplete="email" required />
-    </div>
-    <div class="request-privacy-note">
+      <div class="form-step-actions">
+        <button class="btn btn-navy" type="button" data-back="1">← Atrás</button>
+        <button class="btn btn-navy" type="button" data-next="3">Continuar →</button>
+      </div>
+    </section>
+
+    <section class="form-step" data-step="3" hidden>
+      <p class="form-step-hint">Paso 3 de 3 · Autorización y envío · Tiempo estimado de respuesta: 3 días hábiles</p>
+      <div class="request-privacy-note">
       Los datos se usarán para gestionar esta solicitud y responder al correo indicado. La solicitud y la autorización quedarán registradas por la institución. Para consultar o ejercer tus derechos sobre los datos, escribe a <a href="mailto:ieluiscarlosgalan@sedcasanare.gov.co">ieluiscarlosgalan@sedcasanare.gov.co</a>.
-    </div>
-    <div class="request-consent-row">
-      <input id="request-consent" name="consent" type="checkbox" required />
-      <label for="request-consent">Autorizo el tratamiento de mis datos personales para atender esta solicitud y conozco el aviso de privacidad anterior.</label>
-    </div>
-    <div class="request-trap" aria-hidden="true">
-      <label for="request-website">Deja este campo vacío</label>
-      <input id="request-website" name="website" type="text" tabindex="-1" autocomplete="off" />
-    </div>
-    <p id="request-status" class="request-status" role="status" aria-live="polite"></p>
-    <button class="btn btn-navy" id="request-submit" type="submit">Enviar solicitud</button>
+      </div>
+      <div class="request-consent-row">
+        <input id="request-consent" name="consent" type="checkbox" required />
+        <label for="request-consent">Autorizo el tratamiento de mis datos personales para atender esta solicitud y conozco el aviso de privacidad anterior.</label>
+        <span class="field-error" aria-live="polite"></span>
+      </div>
+      <div class="request-trap" aria-hidden="true">
+        <label for="request-website">Deja este campo vacío</label>
+        <input id="request-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+      </div>
+      <p id="request-status" class="request-status" role="status" aria-live="polite"></p>
+      <div class="form-step-actions">
+        <button class="btn btn-navy" type="button" data-back="2">← Atrás</button>
+        <button class="btn btn-green" id="request-submit" type="submit">Enviar solicitud</button>
+      </div>
+    </section>
   </form>`;
 
-    body.querySelector('#document-request-form')?.addEventListener('submit', submitDocumentRequest);
+    const form = body.querySelector('#document-request-form');
+    form?.addEventListener('submit', submitDocumentRequest);
+    form?.addEventListener('click', event => {
+        const next = event.target.closest('[data-next]');
+        if (next) {
+            const target = Number(next.dataset.next);
+            if (validateRequestStep(target - 1)) showRequestStep(form, target);
+            return;
+        }
+        const back = event.target.closest('[data-back]');
+        if (back) showRequestStep(form, Number(back.dataset.back));
+    });
+    form?.addEventListener('input', event => {
+        const error = event.target.parentElement?.querySelector('.field-error');
+        if (error) error.textContent = '';
+    });
 
     overlay.classList.add('open');
     overlay.setAttribute('aria-hidden', 'false');
@@ -180,10 +263,17 @@ async function submitDocumentRequest(event) {
             return;
         }
 
-        status.textContent = result.emailSent
-            ? `Solicitud registrada con código ${result.id}. La notificación fue enviada al correo de la institución.`
-            : `Solicitud registrada con código ${result.id}, pero el aviso por correo no pudo enviarse. Comunícate con secretaría para confirmar su recepción.`;
+        const codigo = result.id ? String(result.id).slice(0, 8).toUpperCase() : 'N/A';
+        status.textContent = '';
+        const badge = document.createElement('span');
+        badge.className = 'request-code';
+        badge.textContent = 'Radicado: ' + codigo;
+        status.appendChild(badge);
+        status.appendChild(document.createTextNode(result.emailSent
+            ? ' Notificación enviada al correo de la institución. Tiempo estimado de respuesta: 3 días hábiles.'
+            : ' El aviso por correo no pudo enviarse. Comunícate con secretaría para confirmar su recepción.'));
         form.reset();
+        showRequestStep(form, 1);
     } catch (error) {
         status.textContent = error.message || 'No se pudo conectar con el servidor. Intenta de nuevo.';
         status.classList.add('is-error');
@@ -272,9 +362,7 @@ function mostrarToast(mensaje) {
 const GALLERY_DB_NAME = 'luca-gallery-v1';
 const GALLERY_MAX_BYTES = 25 * 1024 * 1024;
 const API_BASE = 'http://127.0.0.1:3000';
-const GALLERY_ADMIN_SESSION_KEY = 'lucagasa_gallery_admin_session';
 let galleryAdminSession = false;
-try { galleryAdminSession = sessionStorage.getItem(GALLERY_ADMIN_SESSION_KEY) === 'true'; } catch (error) { galleryAdminSession = false; }
 
 function galleryAuthHeaders() {
     return { 'Content-Type': 'application/json' };
@@ -283,8 +371,24 @@ function galleryAuthHeaders() {
 function gallerySetAdminVisible() {
     const login = document.getElementById('gallery-admin-login');
     const panel = document.getElementById('gallery-admin-panel');
-    if (login) login.hidden = !galleryAdminSession;
+    const newsAdmin = document.getElementById('news-admin');
+    if (login) login.hidden = galleryAdminSession;
     if (panel) panel.hidden = !galleryAdminSession;
+    if (newsAdmin) newsAdmin.hidden = !galleryAdminSession;
+}
+
+// La cookie HttpOnly es la única fuente de verdad: se comprueba contra la API.
+async function gallerySyncSession() {
+    try {
+        const response = await fetch(API_BASE + '/api/news', {
+            headers: galleryAuthHeaders(),
+            credentials: 'same-origin'
+        });
+        galleryAdminSession = response.ok;
+    } catch (error) {
+        galleryAdminSession = false;
+    }
+    gallerySetAdminVisible();
 }
 
 async function galleryAdminLogin(event) {
@@ -306,7 +410,6 @@ async function galleryAdminLogin(event) {
             return;
         }
         galleryAdminSession = true;
-        try { sessionStorage.setItem(GALLERY_ADMIN_SESSION_KEY, 'true'); } catch (error) { /* almacenamiento no disponible */ }
         if (status) { status.textContent = 'Sesión de administrador iniciada.'; status.classList.remove('is-error'); }
         gallerySetAdminVisible();
         await refreshGallery();
@@ -317,7 +420,6 @@ async function galleryAdminLogin(event) {
 
 function galleryAdminLogout() {
     galleryAdminSession = false;
-    try { sessionStorage.removeItem(GALLERY_ADMIN_SESSION_KEY); } catch (error) { /* almacenamiento no disponible */ }
     fetch(API_BASE + '/api/gallery/logout', { method: 'POST', credentials: 'same-origin' }).catch(() => {});
     gallerySetAdminVisible();
 }
@@ -694,6 +796,7 @@ async function refreshNews() {
         container.replaceChildren();
         container.hidden = newsList.length === 0;
         for (const item of newsList) container.appendChild(createNewsElement(item));
+        filterNews();
     } catch (error) {
         container.hidden = true;
     }
@@ -859,7 +962,36 @@ function initializeGallery() {
     galleryUpdateFileHint();
     gallerySetAdminVisible();
     refreshGallery();
-    refreshNews();
+    (async () => {
+        await gallerySyncSession();
+        await refreshNews();
+    })();
 }
 
+// ======================================================
+// BUSCADOR DE NOTICIAS
+// ======================================================
+function filterNews() {
+    const input = document.getElementById('news-search-input');
+    if (!input) return;
+    const term = input.value.trim().toLocaleLowerCase('es');
+    const lists = [document.getElementById('news-static-list'), document.getElementById('news-published')];
+    for (const list of lists) {
+        if (!list) continue;
+        list.querySelectorAll('.news-item').forEach(item => {
+            const text = item.textContent.toLocaleLowerCase('es');
+            item.hidden = term ? !text.includes(term) : false;
+        });
+    }
+}
+
+document.getElementById('news-search-input')?.addEventListener('input', filterNews);
+
 window.addEventListener('DOMContentLoaded', initializeGallery);
+
+// PWA: cachea solo archivos estáticos del frontend; nunca intercepta la API.
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js').catch(() => {});
+    });
+}

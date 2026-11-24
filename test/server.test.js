@@ -5,7 +5,7 @@ const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
 const { after, before, test } = require('node:test');
-const { createDatabase, createServer, sendEmailNotification } = require('../server');
+const { backupDatabase, createDatabase, createServer, sendEmailNotification } = require('../server');
 
 const tempDirectory = fs.mkdtempSync(path.join(os.tmpdir(), 'solicitudes-ie-'));
 const databasePath = path.join(tempDirectory, 'requests.sqlite');
@@ -150,6 +150,7 @@ test('expone cabeceras de seguridad y protege contra clickjacking y MIME sniffin
     assert.equal(home.headers.get('referrer-policy'), 'same-origin');
     assert.ok(home.headers.get('content-security-policy'));
     assert.ok(home.headers.get('content-security-policy').includes("default-src 'self'"));
+    assert.ok(home.headers.get('content-security-policy').includes("worker-src 'self'"));
     assert.equal(home.headers.get('strict-transport-security'), 'max-age=31536000; includeSubDomains');
     assert.ok(home.headers.get('permissions-policy'));
 });
@@ -266,6 +267,8 @@ test('exige la contraseña de administrador para subir álbumes a la galería', 
         const loginResult = await login.json();
         assert.equal(login.status, 200);
         assert.equal(typeof loginResult.token, 'string');
+        assert.match(login.headers.get('set-cookie') || '', /HttpOnly/);
+        assert.match(login.headers.get('set-cookie') || '', /Path=\/api;/);
         const token = loginResult.token;
 
         const unauthenticated = await fetch(`${adminBaseUrl}/api/gallery/albums`);
@@ -407,4 +410,25 @@ test('cierra la sesión del administrador al usar el endpoint de logout', async 
     } finally {
         await new Promise(resolve => logoutServer.close(resolve));
     }
+});
+
+test('sirve los archivos de SEO y PWA sin exponer archivos privados', async () => {
+    for (const asset of ['/robots.txt', '/sitemap.xml', '/manifest.webmanifest', '/sw.js', '/img/favicon.svg']) {
+        const response = await fetch(`${baseUrl}${asset}`);
+        assert.equal(response.status, 200, `${asset} debe estar disponible`);
+    }
+    const manifest = await (await fetch(`${baseUrl}/manifest.webmanifest`)).json();
+    assert.equal(manifest.short_name, 'Lucagasa');
+    const robots = await (await fetch(`${baseUrl}/robots.txt`)).text();
+    assert.match(robots, /Sitemap:/);
+});
+
+test('crea respaldos de la base de datos con VACUUM INTO', () => {
+    const name = backupDatabase(database, databasePath);
+    const backupPath = path.join(path.dirname(databasePath), 'backups', name);
+    assert.ok(fs.existsSync(backupPath));
+    const backup = createDatabase(backupPath);
+    const count = backup.prepare('SELECT COUNT(*) AS total FROM document_requests').get().total;
+    backup.close();
+    assert.ok(count > 0);
 });

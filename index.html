@@ -3,10 +3,54 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+    <title>Institución Educativa Luis Carlos Galán Sarmiento | Orocué, Casanare</title>
+
+    <!-- SEO -->
+    <meta name="description" content="Sitio oficial de la Institución Educativa Luis Carlos Galán Sarmiento en Orocué, Casanare. Conoce nuestra historia, misión, galería, noticias y solicita documentos en línea."/>
+    <meta name="keywords" content="IE Luis Carlos Galán, Orocué, Casanare, institución educativa, documentos escolares, noticias"/>
+    <meta name="author" content="Institución Educativa Luis Carlos Galán Sarmiento"/>
+    <meta name="theme-color" content="#0d2240"/>
+    <link rel="canonical" href="https://www.lucagasa.edu.co/"/>
+
+    <!-- Redes sociales -->
+    <meta property="og:type" content="website"/>
+    <meta property="og:site_name" content="IE Luis Carlos Galán Sarmiento"/>
+    <meta property="og:locale" content="es_CO"/>
+    <meta property="og:title" content="Institución Educativa Luis Carlos Galán Sarmiento"/>
+    <meta property="og:description" content="Educación integral en Orocué, Casanare. Historia, noticias, galería y solicitud de documentos en línea."/>
+    <meta property="og:url" content="https://www.lucagasa.edu.co/"/>
+    <meta property="og:image" content="https://www.lucagasa.edu.co/img/logogalan.png"/>
+    <meta name="twitter:card" content="summary_large_image"/>
+
+    <!-- Iconos y PWA -->
+    <link rel="icon" type="image/svg+xml" href="img/favicon.svg"/>
+    <link rel="alternate icon" type="image/png" href="img/logogalan.png"/>
+    <link rel="manifest" href="manifest.webmanifest"/>
+
     <link rel="stylesheet" href="style.css"/>
-<title>Institución Educativa Luis Carlos Galán Sarmiento</title>
+
+    <!-- Datos estructurados para Google -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "School",
+      "name": "Institución Educativa Luis Carlos Galán Sarmiento",
+      "alternateName": "IE Lucagasa",
+      "url": "https://www.lucagasa.edu.co/",
+      "logo": "https://www.lucagasa.edu.co/img/logogalan.png",
+      "telephone": ["+573507696725", "+573507696726"],
+      "email": "ieluiscarlosgalan@sedcasanare.gov.co",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Orocué",
+        "addressRegion": "Casanare",
+        "addressCountry": "CO"
+      }
+    }
+    </script>
 </head>
 <body>
+<a class="skip-link" href="#main-content">Saltar al contenido principal</a>
 
 <!-- TOP BAR -->
 <div class="topbar">
@@ -538,7 +582,7 @@
           <p>Docentes: indiquen su nombre, elijan una categoría y agreguen sus archivos.</p>
         </div>
       </div>
-      <div id="gallery-admin-login" class="gallery-admin-login" hidden>
+      <div id="gallery-admin-login" class="gallery-admin-login">
         <h4>🔐 Panel privado de subida</h4>
         <p>Para subir álbumes al servidor institucional, ingresa con la contraseña de administrador.</p>
         <form id="gallery-login-form">
@@ -606,7 +650,11 @@
     <div class="grid g2">
       <div>
         <h3 class="section-title">Últimas noticias</h3>
-        <div class="nlist">
+        <div class="news-search">
+          <label for="news-search-input" class="sr-only">Buscar noticias por título o categoría</label>
+          <input id="news-search-input" type="search" placeholder="🔎 Buscar noticias o eventos…" autocomplete="off" aria-controls="news-static-list news-published"/>
+        </div>
+        <div class="nlist" id="news-static-list">
           <div class="news-item"><div class="nd"><div class="day">18</div><div class="mon">Jun</div></div><div class="nc"><h4>Mejores resultados en Pruebas Saber 11</h4><p>Nuestros estudiantes de grado 11 obtuvieron los mejores puntajes de los últimos cinco años, con dos estudiantes entre los mejores del departamento.</p><span class="ntag">Académico</span></div></div>
           <div class="news-item"><div class="nd"><div class="day">10</div><div class="mon">Jun</div></div><div class="nc"><h4>Apertura de matrículas 2025</h4><p>Se abre el período de matrícula para el año lectivo 2025. Consulta los requisitos en secretaría o en el menú "Solicitud de documentos".</p><span class="ntag verde">Administrativo</span></div></div>
           <div class="news-item"><div class="nd"><div class="day">02</div><div class="mon">Jun</div></div><div class="nc"><h4>Proyecto ambiental gana reconocimiento</h4><p>"Guardianes del Agua" representará a Aguazul en la feria departamental de medio ambiente de Casanare.</p><span class="ntag" style="background:var(--navy)">Ambiental</span></div></div>
@@ -804,6 +852,15 @@
     <div id="map" class="map-container"> <h4>Institución Educativa Luis Carlos Galán Sarmiento</h4>
       <iframe title="Mapa de ubicación de la institución" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7951.790377741152!2d-71.34745212189816!3d4.788019475819566!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e132d2a5ac72555%3A0x7ea69752a0deee15!2sI.E.%20Luis%20Carlos%20Gal%C3%A1n%20Sarmiento!5e0!3m2!1ses-419!2sco!4v1785375281099!5m2!1ses-419!2sco" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
     </div>
+    <section class="resource-links" aria-labelledby="recursos-title">
+      <h3 class="section-title" id="recursos-title">Enlaces y descargas</h3>
+      <div class="resource-grid">
+        <a class="resource-card" href="manual convivencia/Manual de Convivencia.docx" download="Manual_de_Convivencia_LUCAGASA.docx"><span>📘</span><strong>Manual de Convivencia</strong><small>Descarga el documento vigente</small></a>
+        <a class="resource-card" href="https://www.mineducacion.gov.co/portal/" target="_blank" rel="noopener noreferrer"><span>🎓</span><strong>Ministerio de Educación</strong><small>MEN — Noticias y normatividad</small></a>
+        <a class="resource-card" href="https://www.casanare.gov.co/" target="_blank" rel="noopener noreferrer"><span>🏛️</span><strong>Secretaría de Educación</strong><small>Gobernación de Casanare</small></a>
+        <a class="resource-card" href="https://www.icfes.gov.co/" target="_blank" rel="noopener noreferrer"><span>📝</span><strong>ICFES</strong><small>Pruebas Saber y resultados</small></a>
+      </div>
+    </section>
     <div style="margin-top:2rem">
       <h3 class="section-title">Envíanos un mensaje</h3>
       <form class="form-wrap" onsubmit="avisarFormularioSinEnvio(event, 'contacto')">

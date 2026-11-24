@@ -1,0 +1,25 @@
+{
+  "name": "IE Luis Carlos Galán Sarmiento",
+  "short_name": "Lucagasa",
+  "description": "Sitio institucional de la Institución Educativa Luis Carlos Galán Sarmiento",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0d2240",
+  "lang": "es",
+  "icons": [
+    {
+      "src": "img/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "img/logogalan.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
