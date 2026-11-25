@@ -1,6 +1,6 @@
 /* Service Worker: solo cachea archivos estáticos del frontend.
    Las peticiones a la API (otro puerto/origen) nunca se interceptan. */
-const CACHE_NAME = 'lucagasa-static-v1';
+const CACHE_NAME = 'lucagasa-static-v2';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
@@ -33,18 +33,17 @@ self.addEventListener('fetch', event => {
   if (url.origin !== self.location.origin || url.pathname.startsWith('/api/')) return;
   if (event.request.method !== 'GET') return;
 
+  // Network-first: siempre trae la versión más reciente del archivo.
+  // Si no hay conexión, usa la copia cacheada.
   event.respondWith(
-    caches.match(event.request).then(cached => {
-      const network = fetch(event.request)
-        .then(response => {
-          if (response.ok && url.pathname !== '/') {
-            const copy = response.clone();
-            caches.open(CACHE_NAME).then(cache => cache.put(event.request, copy));
-          }
-          return response;
-        })
-        .catch(() => cached);
-      return cached || network;
-    })
+    fetch(event.request)
+      .then(response => {
+        if (response.ok) {
+          const copy = response.clone();
+          caches.open(CACHE_NAME).then(cache => cache.put(event.request, copy));
+        }
+        return response;
+      })
+      .catch(() => caches.match(event.request).then(cached => cached || Response.error()))
   );
 });
